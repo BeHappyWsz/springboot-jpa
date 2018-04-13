@@ -2,9 +2,7 @@ package wsz.springboot.springbootjpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import wsz.springboot.springbootjpa.domain.User;
 import wsz.springboot.springbootjpa.service.UserService;
 
@@ -38,5 +36,65 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User insertUser(User user){
         return userService.insertByUser(user);
+    }
+
+    /**
+     * http://localhost:8080/user/getMaxId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/getMaxId", method = RequestMethod.GET)
+    public User getMaxId(){
+        return userService.getMaxId();
+    }
+
+    /**
+     * ?index 传参数
+     * http://localhost:8080/user/findByUserid?id=9
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/findByUserid", method = RequestMethod.GET)
+    public User findByUserid(@RequestParam(value = "id",  required = true)Long id){
+        return userService.findByUserid(id);
+    }
+
+    /**
+     * like 查询
+     * http://localhost:8080/user/like/haha
+     * @param username
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/like/{username}", method = RequestMethod.GET)
+    public List<User> findsByUsername(@PathVariable("username")String username){
+        return userService.findsByUsername(username);
+    }
+
+    /**
+     * 相等查询
+     * http://localhost:8080/user/findByUsername?username=haha
+     * @param username
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/findByUsername", method = RequestMethod.GET)
+    public User findByUsername(@RequestParam(value = "username", defaultValue = "a", required = true) String username){
+        return userService.findByUsername(username);
+    }
+
+
+    /**
+     * 多条件查询
+     * http://localhost:8080/user/findByUsernameAndPassword?password=123456&username=hhh
+     * @param username
+     * @param password
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/findByUsernameAndPassword", method = RequestMethod.GET)
+    public User findByUsernameAndPassword(String username, String password){
+        return userService.findByUsernameAndPassword(username, password);
     }
 }

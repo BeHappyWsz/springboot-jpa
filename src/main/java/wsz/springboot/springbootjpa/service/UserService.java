@@ -23,4 +23,40 @@ public class UserService {
     public List<User> findAll(){
         return userRepository.findAll();
     }
+
+    public User getMaxId(){
+        return userRepository.getMaxId();
+    }
+
+    public User findByUserid(Long id){
+        return userRepository.findByUserid(id);
+    }
+
+    /**
+     * like查询
+     * @param username
+     * @return
+     */
+    public List<User> findsByUsername(String username){
+        return userRepository.findsByUsername(username);
+    }
+
+    /**
+     * 相等查询
+     * @param username
+     * @return
+     */
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
+    /**
+     * 多条件查询
+     * @param username
+     * @param password
+     * @return
+     */
+    public User findByUsernameAndPassword(String username, String password){
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
 }
