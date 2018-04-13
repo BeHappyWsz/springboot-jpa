@@ -1,6 +1,8 @@
 package wsz.springboot.springbootjpa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import wsz.springboot.springbootjpa.domain.User;
 import wsz.springboot.springbootjpa.domain.UserRepository;
@@ -58,5 +60,14 @@ public class UserService {
      */
     public User findByUsernameAndPassword(String username, String password){
         return userRepository.findByUsernameAndPassword(username, password);
+    }
+
+    /**
+     * 分页
+     * @param pageable
+     * @return
+     */
+    public Page<User> findByPage(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 }

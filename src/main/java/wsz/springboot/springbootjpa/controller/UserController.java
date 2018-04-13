@@ -1,6 +1,10 @@
 package wsz.springboot.springbootjpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wsz.springboot.springbootjpa.domain.User;
@@ -96,5 +100,19 @@ public class UserController {
     @RequestMapping(value = "/user/findByUsernameAndPassword", method = RequestMethod.GET)
     public User findByUsernameAndPassword(String username, String password){
         return userService.findByUsernameAndPassword(username, password);
+    }
+
+    /**
+     * http://localhost:8080/user/findByPage?size=2&page=1
+     * @param page 当前页
+     * @param size 每页数据数量
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/findByPage", method = RequestMethod.GET)
+    public Page<User> findByPage(@RequestParam(value = "page", defaultValue ="0") int page, @RequestParam(value = "size", defaultValue = "20") int size){
+       //根据id，倒序
+        Pageable pageable = new PageRequest(page, size, new Sort(new Sort.Order(Sort.Direction.DESC,"id")));
+        return userService.findByPage(pageable);
     }
 }
